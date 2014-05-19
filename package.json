@@ -1,0 +1,29 @@
+{
+  "name": "jquery.signat0r",
+  "description": "Draw and capture signatures on canvas surfaces using PointerEvents (mouse, touch, pen) with HandJS as polyfill.",
+  "version": "0.0.1",
+  "author": {
+    "name": "Dominik Menke",
+    "url": "https://github.com/dmke"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dmke/jquery.sign4t0r.git"
+  },
+  "keywords": [ "canvas", "pointerevents", "drawing" ],
+  "homepage": "https://github.com/dmke/jquery.sign4t0r",
+  "bugs": "https://github.com/dmke/jquery.sign4t0r/issues",
+  "licenses": [{
+    "type": "MIT",
+    "url":  "https://github.com/dmke/jquery-sign4tor/LICENSE"
+  }],
+  "dependencies": {
+    "jquery": ">=1.9"
+  },
+  "devDependencies": {
+    "coffee-script": "~1.7.1",
+    "blade": "~3.3.0",
+    "less": "~1.7.0"
+  },
+  "main": "dist/jquery.sign4t0r.js"
+}

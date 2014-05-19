@@ -1,0 +1,131 @@
+!!! 5
+head
+  meta( charset='UTF-8' )
+  title Sign4t0r Demo
+  meta( name="viewport" content="width=device-width, user-scalable=no" )
+  script( src='https://code.jquery.com/jquery-1.11.0.min.js' )
+  script( src='../dist/jquery.signat0r.js' )
+  script( src='../dist/pointerevents.dev.js' )
+  :coffeescript
+    debounce = (->
+      timer = 0
+      (ms, callback)->
+        clearTimeout timer
+        timer = setTimeout(callback, ms)
+    )()
+    $ ->
+      canvas = $('#signature').signat0r()
+      optionInputMapping =
+        renderStyle:    '#style'
+        minStrokeWidth: '#stroke-min'
+        maxStrokeWidth: '#stroke-max'
+        minDistance:    '#distance-min'
+        maxDistance:    '#distance-max'
+      $('#reset').on 'click', ->
+        canvas.signat0r('reset')
+        $('#exports').empty()
+        return
+      $('#undo').on 'click', ->
+        canvas.signat0r('undo')
+        return
+      $('#export').on 'click', ->
+        # holds the signature "data:image/png;base64,…" string
+        if pngDataUrl = canvas.signat0r('exportImage')
+          $('<img>').attr('src', pngDataUrl).prependTo $('#exports')
+        return
+      $('#debug')
+      .prop 'checked', canvas.signat0r('getOption', 'debug')
+      .on 'change', ->
+        canvas.signat0r 'setOption', 'debug', $(this).is(':checked')
+        return
+      for option, id of optionInputMapping
+        $(id)
+        .val canvas.signat0r('getOption', option)
+        .data 'which', option
+        .on 'change', ->
+          canvas.signat0r 'setOption', $(this).data('which'), $(this).val()
+          return
+      $(window).on 'resize', ->
+        debounce 250, -> canvas.signat0r('render')
+      window.signat0rInstance = canvas.data('_signat0r-instance')
+      return
+
+  :less
+    body, table {
+      font: 12px/18px sans-serif;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    th {
+      text-align: left;
+    }
+    #signature {
+      width: 100%;
+      height: 400px;
+      border: 1px solid #ddd;
+      -webkit-touch-events: none;
+      -moz-touch-events: none;
+      -ms-touch-events: none;
+      -o-touch-events: none;
+      touch-events: none;
+      position: relative;
+      background: transparent url(signature-line.png) bottom left no-repeat;
+      cursor: crosshair;
+    }
+    #exports img {
+      border: 1px solid #ddd
+    }
+    #debugOutput td {
+      border: 1px solid #ddd;
+      padding: 0 2px;
+      text-align: center
+    }
+
+
+body
+  h1 Signat0r Demo
+  canvas#signature( touch-action="none" )
+    | Your browser does not support HTML canvas elements.
+
+  .column
+    h2 Controls
+    p
+      button#undo( type="button" ) Undo last stroke
+      button#reset( type="button" ) Reset canvas
+      button#export( type="button" ) Export
+
+    h2 Configuration
+    table
+      tr
+        th Style
+        td( colspan="2" )
+          select#style
+            option( value="debug" ) Debug
+            option( value="clean" ) Clean
+            option( value="variable" ) Variable (beta)
+            option( value="cubic" ) Cubic (tbd)
+            option( value="smudgy" ) Smudgy (tbd)
+            option( value="graphite" ) Graphite (tbd)
+      tr
+        th Stroke width
+        td
+          | min
+          input#stroke-min( type="number" min=0 max=150 step=1 )
+        td
+          | max
+          input#stroke-max( type="number" min=0 max=150 step=1 )
+      tr
+        th Distance limits
+        td
+          | min
+          input#distance-min( type="number" min=0 max=150 step=1 )
+        td
+          | max
+          input#distance-max( type="number" min=0 max=150 step=1 )
+      tr
+        th Debugging
+        td( colspan="2" )
+          input#debug( type="checkbox" )
+
+  #exports

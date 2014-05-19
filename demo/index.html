@@ -1,0 +1,90 @@
+<!DOCTYPE html><head><meta charset="UTF-8"/><title>Sign4t0r Demo</title><meta name="viewport" content="width=device-width, user-scalable=no"/><script src="https://code.jquery.com/jquery-1.11.0.min.js"></script><script src="../dist/jquery.signat0r.js"></script><script src="../dist/pointerevents.dev.js"></script><script type="text/javascript">
+(function() {
+  var debounce;
+
+  debounce = (function() {
+    var timer;
+    timer = 0;
+    return function(ms, callback) {
+      clearTimeout(timer);
+      return timer = setTimeout(callback, ms);
+    };
+  })();
+
+  $(function() {
+    var canvas, id, option, optionInputMapping;
+    canvas = $('#signature').signat0r();
+    optionInputMapping = {
+      renderStyle: '#style',
+      minStrokeWidth: '#stroke-min',
+      maxStrokeWidth: '#stroke-max',
+      minDistance: '#distance-min',
+      maxDistance: '#distance-max'
+    };
+    $('#reset').on('click', function() {
+      canvas.signat0r('reset');
+      $('#exports').empty();
+    });
+    $('#undo').on('click', function() {
+      canvas.signat0r('undo');
+    });
+    $('#export').on('click', function() {
+      var pngDataUrl;
+      if (pngDataUrl = canvas.signat0r('exportImage')) {
+        $('<img>').attr('src', pngDataUrl).prependTo($('#exports'));
+      }
+    });
+    $('#debug').prop('checked', canvas.signat0r('getOption', 'debug')).on('change', function() {
+      canvas.signat0r('setOption', 'debug', $(this).is(':checked'));
+    });
+    for (option in optionInputMapping) {
+      id = optionInputMapping[option];
+      $(id).val(canvas.signat0r('getOption', option)).data('which', option).on('change', function() {
+        canvas.signat0r('setOption', $(this).data('which'), $(this).val());
+      });
+    }
+    $(window).on('resize', function() {
+      return debounce(250, function() {
+        return canvas.signat0r('render');
+      });
+    });
+    window.signat0rInstance = canvas.data('_signat0r-instance');
+  });
+
+}).call(this);
+
+</script>
+<style type="text/css">
+body,
+table {
+  font: 12px/18px sans-serif;
+}
+table {
+  border-collapse: collapse;
+}
+th {
+  text-align: left;
+}
+#signature {
+  width: 100%;
+  height: 400px;
+  border: 1px solid #ddd;
+  -webkit-touch-events: none;
+  -moz-touch-events: none;
+  -ms-touch-events: none;
+  -o-touch-events: none;
+  touch-events: none;
+  position: relative;
+  background: transparent url(signature-line.png) bottom left no-repeat;
+  cursor: crosshair;
+}
+#exports img {
+  border: 1px solid #dddddd;
+}
+#debugOutput td {
+  border: 1px solid #ddd;
+  padding: 0 2px;
+  text-align: center;
+}
+
+</style></head><body><h1>Signat0r Demo</h1><canvas touch-action="none" id="signature">Your browser does not support HTML canvas elements.</canvas><div class="column"><h2>Controls</h2><p><button type="button" id="undo">Undo last stroke</button><button type="button" id="reset">Reset canvas</button><button type="button" id="export">Export</button></p><h2>Configuration</h2><table><tr><th>Style</th><td colspan="2"><select id="style"><option value="debug">Debug</option><option value="clean">Clean</option><option value="variable">Variable (beta)</option><option value="cubic">Cubic (tbd)</option><option value="smudgy">Smudgy (tbd)</option><option value="graphite">Graphite (tbd)</option></select></td></tr><tr><th>Stroke width</th><td>min<input type="number" id="stroke-min" min="0" max="150" step="1"/></td><td>max<input type="number" id="stroke-max" min="0" max="150" step="1"/></td></tr><tr><th>Distance limits</th><td>min<input type="number" id="distance-min" min="0" max="150" step="1"/></td><td>max<input type="number" id="distance-max" min="0" max="150" step="1"/></td></tr><tr><th>Debugging</th><td colspan="2"><input type="checkbox" id="debug"/></td></tr></table></div><div id="exports"></div></body>
