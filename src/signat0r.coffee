@@ -4,9 +4,11 @@ class Signat0r
     maxStrokeWidth: 8
     minDistance:    5
     maxDistance:    70
-    renderStyle:    'variable'
+    renderStyle:    'cubic'
     debug:          false
     cropPadding:    5
+    cubicZ:         0.5
+    cubicAngle:     0.75
 
   constructor: (@canvas, options)->
     @options = $.extend {}, Signat0r.defaultOptions, options

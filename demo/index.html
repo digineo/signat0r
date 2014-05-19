@@ -19,7 +19,9 @@
       minStrokeWidth: '#stroke-min',
       maxStrokeWidth: '#stroke-max',
       minDistance: '#distance-min',
-      maxDistance: '#distance-max'
+      maxDistance: '#distance-max',
+      cubicZ: '#cubic-z',
+      cubicAngle: '#cubic-angle'
     };
     $('#reset').on('click', function() {
       canvas.signat0r('reset');
@@ -87,4 +89,4 @@ th {
   text-align: center;
 }
 
-</style></head><body><h1>Signat0r Demo</h1><canvas touch-action="none" id="signature">Your browser does not support HTML canvas elements.</canvas><div class="column"><h2>Controls</h2><p><button type="button" id="undo">Undo last stroke</button><button type="button" id="reset">Reset canvas</button><button type="button" id="export">Export</button></p><h2>Configuration</h2><table><tr><th>Style</th><td colspan="2"><select id="style"><option value="debug">Debug</option><option value="clean">Clean</option><option value="variable">Variable (beta)</option><option value="cubic">Cubic (tbd)</option><option value="smudgy">Smudgy (tbd)</option><option value="graphite">Graphite (tbd)</option></select></td></tr><tr><th>Stroke width</th><td>min<input type="number" id="stroke-min" min="0" max="150" step="1"/></td><td>max<input type="number" id="stroke-max" min="0" max="150" step="1"/></td></tr><tr><th>Distance limits</th><td>min<input type="number" id="distance-min" min="0" max="150" step="1"/></td><td>max<input type="number" id="distance-max" min="0" max="150" step="1"/></td></tr><tr><th>Debugging</th><td colspan="2"><input type="checkbox" id="debug"/></td></tr></table></div><div id="exports"></div></body>
+</style></head><body><h1>Signat0r Demo</h1><canvas touch-action="none" id="signature">Your browser does not support HTML canvas elements.</canvas><div class="column"><h2>Controls</h2><p><button type="button" id="undo">Undo last stroke</button><button type="button" id="reset">Reset canvas</button><button type="button" id="export">Export</button></p><h2>Configuration</h2><table><tr><th>Style</th><td colspan="2"><select id="style"><option value="debug">Debug</option><option value="clean">Clean</option><option value="variable">Variable (beta)</option><option value="cubic">Cubic (tbd)</option><option value="smudgy">Smudgy (tbd)</option><option value="graphite">Graphite (tbd)</option></select></td></tr><tr><th>Stroke width</th><td>min<input type="number" id="stroke-min" min="0" max="150" step="1"/></td><td>max<input type="number" id="stroke-max" min="0" max="150" step="1"/></td></tr><tr><th>Distance limits</th><td>min<input type="number" id="distance-min" min="0" max="150" step="1"/></td><td>max<input type="number" id="distance-max" min="0" max="150" step="1"/></td></tr><tr><th>Cubic only</th><td>z<input type="number" id="cubic-z" min="0.01" max="1" step="0.01"/></td><td>angle<input type="number" id="cubic-angle" min="0" max="1" step="0.01"/></td></tr><tr><th>Debugging</th><td colspan="2"><input type="checkbox" id="debug"/></td></tr></table></div><div id="exports"></div></body>

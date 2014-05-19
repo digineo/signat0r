@@ -71,8 +71,16 @@ class VariableRenderer extends CleanRenderer
 
     @options.maxStrokeWidth + @options.m * (x - @options.minDistance)
 
+class CubicRenderer extends Renderer
+  renderPath: (points)->
+    console.groupCollapsed('cubic renderer')
+    @context.lineWidth = 3
+    Utils.curveThroughPoints @context, points, @options.cubicZ, @options.cubicAngle, @options.debug
+    console.groupEnd()
+
 $.extend Renderer,
   renderers:
     debug:    DebugRenderer
     clean:    CleanRenderer
     variable: VariableRenderer
+    cubic:    CubicRenderer
